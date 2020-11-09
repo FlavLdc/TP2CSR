@@ -44,11 +44,11 @@ public class Site {
 	 * Affiche l'etat du site
 	 */
 	public void afficher() {
-		System.out.println("Le site n°" + site + " contient " + nbVelos + " velo(s).");
+		System.out.println("Le site nï¿½" + site + " contient " + nbVelos + " velo(s).");
 	}
 	
 	/**
-	 * Fonction pour tester toute les méthodes 
+	 * Fonction pour tester toute les mï¿½thodes 
 	 */
 	public static void principale() {
 		Site principale = new Site(1);
@@ -72,6 +72,46 @@ public class Site {
 	static public void main(String[] args) {
 		principale();
 
+	}
+
+
+	public static int getStockInit() {
+		return STOCK_INIT;
+	}
+
+
+	public static int getStockMax() {
+		return STOCK_MAX;
+	}
+
+
+	public static int getBorneSup() {
+		return BORNE_SUP;
+	}
+
+
+	public static int getBorneInf() {
+		return BORNE_INF;
+	}
+
+
+	public int getNbVelos() {
+		return nbVelos;
+	}
+
+
+	public void setNbVelos(int nbVelos) {
+		this.nbVelos = nbVelos;
+	}
+
+
+	public int getSite() {
+		return site;
+	}
+
+
+	public void setSite(int site) {
+		this.site = site;
 	}
 	
 }

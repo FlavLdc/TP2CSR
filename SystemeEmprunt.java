@@ -38,6 +38,11 @@ public class SystemeEmprunt {
 
 	}
 
+	public int getNbSites(){
+
+		return NB_SITES;
+	}
+
 	/* Point d'entree du programme */
 
 	public static void main(String[] args) {
