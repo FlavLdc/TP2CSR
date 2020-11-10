@@ -46,7 +46,7 @@ public class Site {
 	public int getNumeroSite() {
 		return NumeroSite;
 	}
-	
+
 	/**
 	 * 
 	 * @return Le nombre de velo sur le site
@@ -69,12 +69,7 @@ public class Site {
 		nbVelos--;
 		notify();
 
-		if(nbVelos < 0) {
-			System.err.println("Le client " + Thread.currentThread().getName() +" emprunte 1 velo du site n°" + NumeroSite +", il reste : " + nbVelos + " velo(s).");
-		}
-		else {
-			System.out.println("Le client " + Thread.currentThread().getName() +" emprunte 1 velo du site n°" + NumeroSite +", il reste : " + nbVelos + " velo(s).");
-		}
+		System.out.println("Le client " + Thread.currentThread().getName() +" emprunte 1 velo du site n°" + NumeroSite +", il reste : " + nbVelos + " velo(s).");
 	}
 
 	/**
@@ -90,7 +85,7 @@ public class Site {
 		}
 		nbVelos++;
 		notify();
-		
+
 		System.out.println("Le client " + Thread.currentThread().getName() +" restitue 1 velo au site n°" + NumeroSite +", il y a : " + nbVelos + " velo(s).");
 	}
 

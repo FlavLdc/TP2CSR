@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class SystemeEmprunt {
+class SystemeEmprunt {
 
 	/* Constantes */
 
@@ -19,16 +19,15 @@ public class SystemeEmprunt {
 	SystemeEmprunt() {
 
 		/* Instanciation des sites */
-		for (int i = 0; i < NB_SITES; i++) {
+		for(int i = 0; i < NB_SITES; i++) {
 			sites[i] = new Site(i);
 		}
-
-		Random rand = new Random();
+		Random r = new Random();
 		/* Instanciation des clients */
-		for (int i = 0; i < MAX_CLIENTS; i++) {
+		for(int i = 0; i < MAX_CLIENTS; i++) {
 
-			int siteDepId = rand.nextInt(NB_SITES);
-			int siteArrId = rand.nextInt(NB_SITES);
+			int siteDepId = r.nextInt(NB_SITES);
+			int siteArrId = r.nextInt(NB_SITES);
 			clients[i] = new Client(sites[siteDepId], sites[siteArrId]);
 
 		}
@@ -38,17 +37,30 @@ public class SystemeEmprunt {
 
 	}
 
-	public int getNbSites(){
-
-		return NB_SITES;
-	}
-
 	/* Point d'entree du programme */
 
 	public static void main(String[] args) {
 
-		new SystemeEmprunt();
+		SystemeEmprunt TP2 = new SystemeEmprunt();
+		//TP2.camion.tournee();
+		//incrementer nbClients qlq part et decrementer quand le thread est fini
+		for(Client c : TP2.clients) {
+			c.start();
+		}
+		for(Client c : TP2.clients) {
+			try {
+				c.join();
+			}
+			catch(InterruptedException e){}
+		}
+		if(TP2.nbClients == 0) {
+			//stop le camtar
+		}
 
+		for(Site s : TP2.sites) {
+			s.afficher();
+		}
 	}
+
 
 } // class SystemeEmprunt
