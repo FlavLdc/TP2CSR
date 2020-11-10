@@ -1,3 +1,7 @@
+/**
+ * Les objets instances de la classe Site representent un ensemble velos, 
+ * stockes au meme endroit. il n'est pas possible que deux client saisissent deux velos au meme moment. 
+ */
 public class Site {
 	/**
 	 * Nombre de velo initialement sur le site
@@ -24,31 +28,81 @@ public class Site {
 	/**
 	 * Numero du site
 	 */
-	public int site;
-	
+	private int NumeroSite;
+
+	/**
+	 * Creer un nouvel objet instance de site
+	 * @param numeroSite Le numero du site
+	 */
 	public Site(int numeroSite) {
-		this.site = numeroSite;
+		this.NumeroSite = numeroSite;
 		this.nbVelos = STOCK_INIT;
 	}
 
+	/**
+	 * 
+	 * @return Le numero du site 
+	 */
+	public int getNumeroSite() {
+		return NumeroSite;
+	}
 	
+	/**
+	 * 
+	 * @return Le nombre de velo sur le site
+	 */
+	public int getNbVelos() {
+		return nbVelos;
+	}
+
+	/**
+	 * Prend un velo sur le site, si il n'y a plus de velos disponible on attend
+	 */
 	public synchronized void emprunt() {
+		while(nbVelos == 0) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		nbVelos--;
+		notify();
+
+		if(nbVelos < 0) {
+			System.err.println("Le client " + Thread.currentThread().getName() +" emprunte 1 velo du site n°" + NumeroSite +", il reste : " + nbVelos + " velo(s).");
+		}
+		else {
+			System.out.println("Le client " + Thread.currentThread().getName() +" emprunte 1 velo du site n°" + NumeroSite +", il reste : " + nbVelos + " velo(s).");
+		}
 	}
-	
+
+	/**
+	 * Restitue un velo sur le site, si le nombre max de velos est atteint, on attend
+	 */
 	public synchronized void restitution() {
+		while(nbVelos == STOCK_MAX) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		nbVelos++;
+		notify();
+		
+		System.out.println("Le client " + Thread.currentThread().getName() +" restitue 1 velo au site n°" + NumeroSite +", il y a : " + nbVelos + " velo(s).");
 	}
-	
+
 	/**
 	 * Affiche l'etat du site
 	 */
 	public void afficher() {
-		System.out.println("Le site n�" + site + " contient " + nbVelos + " velo(s).");
+		System.out.println("Le site n°" + NumeroSite + " contient " + nbVelos + " velo(s).");
 	}
-	
+
 	/**
-	 * Fonction pour tester toute les m�thodes 
+	 * Fonction pour tester toute les methodes 
 	 */
 	public static void principale() {
 		Site principale = new Site(1);
@@ -57,7 +111,7 @@ public class Site {
 			principale.emprunt();
 		}
 		principale.afficher();
-		principale.emprunt();
+		//principale.emprunt();
 		principale.afficher();
 		principale.restitution();
 		principale.restitution();
@@ -74,44 +128,4 @@ public class Site {
 
 	}
 
-
-	public static int getStockInit() {
-		return STOCK_INIT;
-	}
-
-
-	public static int getStockMax() {
-		return STOCK_MAX;
-	}
-
-
-	public static int getBorneSup() {
-		return BORNE_SUP;
-	}
-
-
-	public static int getBorneInf() {
-		return BORNE_INF;
-	}
-
-
-	public int getNbVelos() {
-		return nbVelos;
-	}
-
-
-	public void setNbVelos(int nbVelos) {
-		this.nbVelos = nbVelos;
-	}
-
-
-	public int getSite() {
-		return site;
-	}
-
-
-	public void setSite(int site) {
-		this.site = site;
-	}
-	
 }
