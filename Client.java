@@ -31,12 +31,14 @@ public class Client extends Thread {
 	public void run() {
 		int tempsTrajet = Depart.getNumeroSite() - Arrivee.getNumeroSite();
 		Depart.emprunt();
-		try { Thread.sleep(1000*(Math.abs(tempsTrajet)));}
+		try { Thread.sleep(500*(Math.abs(tempsTrajet)));}
 		catch(InterruptedException e) {}
 		Arrivee.restitution();
 	}
 	
-	
+	/**
+	 * fonction pour tester les fonctionnalitees
+	 */
 	public static void principale() {
 		Site A = new Site(0);
 		Site B = new Site(5);
@@ -47,6 +49,7 @@ public class Client extends Thread {
 		A.afficher();
 		B.afficher();
 		D.afficher();
+		
 		test.start();
 		test2.start();
 		try {

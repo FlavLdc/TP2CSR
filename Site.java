@@ -67,9 +67,13 @@ public class Site {
 			}
 		}
 		nbVelos--;
-		notify();
-
-		System.out.println("Le client " + Thread.currentThread().getName() +" emprunte 1 velo du site n°" + NumeroSite +", il reste : " + nbVelos + " velo(s).");
+		if(Thread.currentThread().getPriority() == Thread.NORM_PRIORITY) {
+			notify();	
+		}
+		if(Thread.currentThread().getClass().getName() == "Camion") {} //Le camion a son propre systeme d'affichage
+		else {	
+			System.out.println("Le client " + Thread.currentThread().getName() +" emprunte 1 velo du site n°" + NumeroSite +", il reste : " + nbVelos + " velo(s).");
+		}
 	}
 
 	/**
@@ -78,15 +82,19 @@ public class Site {
 	public synchronized void restitution() {
 		while(nbVelos == STOCK_MAX) {
 			try {
-				wait();
+				wait();				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		nbVelos++;
-		notify();
-
-		System.out.println("Le client " + Thread.currentThread().getName() +" restitue 1 velo au site n°" + NumeroSite +", il y a : " + nbVelos + " velo(s).");
+		if(Thread.currentThread().getPriority() == Thread.NORM_PRIORITY) {
+			notify();	
+		}
+		if(Thread.currentThread().getClass().getName() == "Camion") {} //Le camion a son propre systeme d'affichage
+		else {
+			System.out.println("Le client " + Thread.currentThread().getName() +" restitue 1 velo au site n°" + NumeroSite +", il y a maintenant : " + nbVelos + " velo(s).");
+		}
 	}
 
 	/**
@@ -106,7 +114,6 @@ public class Site {
 			principale.emprunt();
 		}
 		principale.afficher();
-		//principale.emprunt();
 		principale.afficher();
 		principale.restitution();
 		principale.restitution();

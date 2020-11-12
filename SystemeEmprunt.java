@@ -1,6 +1,6 @@
 import java.util.Random;
 
-class SystemeEmprunt {
+public class SystemeEmprunt {
 
 	/* Constantes */
 
@@ -19,9 +19,10 @@ class SystemeEmprunt {
 	SystemeEmprunt() {
 
 		/* Instanciation des sites */
-		for(int i = 0; i < NB_SITES; i++) {
+		for(int i = 0; i < NB_SITES; i++){
 			sites[i] = new Site(i);
 		}
+
 		Random r = new Random();
 		/* Instanciation des clients */
 		for(int i = 0; i < MAX_CLIENTS; i++) {
@@ -42,19 +43,21 @@ class SystemeEmprunt {
 	public static void main(String[] args) {
 
 		SystemeEmprunt TP2 = new SystemeEmprunt();
-		//TP2.camion.tournee();
-		//incrementer nbClients qlq part et decrementer quand le thread est fini
+		TP2.camion.start();
 		for(Client c : TP2.clients) {
 			c.start();
+			TP2.nbClients++;
 		}
 		for(Client c : TP2.clients) {
 			try {
 				c.join();
+				TP2.nbClients--;
 			}
 			catch(InterruptedException e){}
 		}
 		if(TP2.nbClients == 0) {
-			//stop le camtar
+			TP2.camion.interrupt();
+			System.out.println("Fin du service !");
 		}
 
 		for(Site s : TP2.sites) {
